@@ -7,6 +7,7 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import AuthLayout from '@/layouts/auth-layout';
 
 type RegisterForm = {
@@ -14,6 +15,7 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
+    roles: string[];
 };
 
 export default function Register() {
@@ -22,6 +24,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        roles: [],
     });
 
     const submit: FormEventHandler = (e) => {
@@ -99,6 +102,61 @@ export default function Register() {
                             placeholder="Confirm password"
                         />
                         <InputError message={errors.password_confirmation} />
+                    </div>
+
+                    <div className="grid gap-4">
+                        <Label>Select your roles</Label>
+                        <div className="grid gap-3">
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="club_member"
+                                    checked={data.roles.includes('club_member')}
+                                    onCheckedChange={(checked) => {
+                                        const newRoles = checked
+                                            ? [...data.roles, 'club_member']
+                                            : data.roles.filter((role) => role !== 'club_member');
+                                        setData('roles', newRoles);
+                                    }}
+                                    disabled={processing}
+                                />
+                                <Label htmlFor="club_member" className="text-sm font-normal">
+                                    Club Member
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="household"
+                                    checked={data.roles.includes('household')}
+                                    onCheckedChange={(checked) => {
+                                        const newRoles = checked
+                                            ? [...data.roles, 'household']
+                                            : data.roles.filter((role) => role !== 'household');
+                                        setData('roles', newRoles);
+                                    }}
+                                    disabled={processing}
+                                />
+                                <Label htmlFor="household" className="text-sm font-normal">
+                                    Household
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="sponsor"
+                                    checked={data.roles.includes('sponsor')}
+                                    onCheckedChange={(checked) => {
+                                        const newRoles = checked
+                                            ? [...data.roles, 'sponsor']
+                                            : data.roles.filter((role) => role !== 'sponsor');
+                                        setData('roles', newRoles);
+                                    }}
+                                    disabled={processing}
+                                />
+                                <Label htmlFor="sponsor" className="text-sm font-normal">
+                                    Sponsor
+                                </Label>
+                            </div>
+                        </div>
+                        <InputError message={errors.roles} />
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
